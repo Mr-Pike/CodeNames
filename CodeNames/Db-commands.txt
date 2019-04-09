@@ -1,0 +1,11 @@
+﻿# Create migration.
+Add-Migration CreateTableName
+
+# Drop migration.
+Remove-Migration
+
+# Update database.
+Update-Database
+
+# Generate models.
+Scaffold-DbContext "Server=localhost;User Id=root;Password=;Database=codenames2" Pomelo.EntityFrameworkCore.MySql -force -Tables Games
