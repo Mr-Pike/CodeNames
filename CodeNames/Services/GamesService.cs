@@ -2,8 +2,11 @@
 using CodeNames.Enums;
 using CodeNames.Interfaces;
 using CodeNames.Models;
+using CoreHtmlToImage;
+using Microsoft.AspNetCore.Hosting;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -12,15 +15,29 @@ namespace CodeNames.Services
     public class GamesService : IGamesService
     {
         private readonly ApplicationDbContext _context;
+        private readonly IHostingEnvironment _hostingEnvironment;
 
-        public GamesService(ApplicationDbContext context)
+        public GamesService(ApplicationDbContext context, IHostingEnvironment hostingEnvironment)
         {
             _context = context;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         public List<Games> FindAll()
         {
             return _context.Games.ToList();
+        }
+
+        public List<ViewGames> FindById(int id)
+        {
+            try
+            {
+                return _context.ViewGames.Where(x => x.GameId == id).OrderBy(x => x.Order).ToList();
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public async Task<Games> Generate()
@@ -93,6 +110,18 @@ namespace CodeNames.Services
             await _context.SaveChangesAsync();
 
             return game;
+        }
+
+        public string GridColor(int id, string url)
+        {
+            string fileGridColor = $"{_hostingEnvironment.WebRootPath}\\grids\\grid-{id}.png";
+
+            var converter = new HtmlConverter();
+            //var bytes = converter.FromUrl("http://google.com");
+            var bytes = converter.FromUrl(url, 500, ImageFormat.Png, 100);
+            File.WriteAllBytes(fileGridColor, bytes);
+
+            return fileGridColor;
         }
     }
 }

@@ -1,0 +1,37 @@
+﻿@{
+    Layout = null;
+}
+<html>
+    <head>
+        <style>
+            td {
+                border: 2px solid black;
+                width: 75px;
+                height: 75px;
+            }
+
+            table {
+                border: 10px solid black;
+                border-collapse: collapse;
+            }
+        </style>
+    </head>
+    <body>
+        <table>
+            @for (int i = 0; i < ((ViewGames[])ViewData["ViewGames"]).Count(); i++)
+            {
+                if (i % 5 == 0)
+                {
+                    @:<tr>
+                }
+                
+                <td style="@("background-color:" + ((ViewGames[])ViewData["ViewGames"])[i].ColorName);"></td>
+
+                if (i+1 % 5 == 0)
+                {
+                    @:</tr>
+                }
+            }
+        </table>
+    </body>
+</html>

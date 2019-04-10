@@ -7,15 +7,20 @@ using Microsoft.AspNetCore.Mvc;
 using CodeNames.Models;
 using CodeNames.Services;
 using CodeNames.Interfaces;
+using System.IO;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Routing;
 
 namespace CodeNames.Controllers
 {
     public class GamesController : Controller
     {
+        private readonly IHttpContextAccessor _context;
         private readonly IGamesService _gamesService;
 
-        public GamesController(IGamesService gamesService)
+        public GamesController(IHttpContextAccessor context, IGamesService gamesService)
         {
+            _context = context;
             _gamesService = gamesService;
         }
 
@@ -40,8 +45,24 @@ namespace CodeNames.Controllers
         // GET: Games/Generate
         public async Task<IActionResult> Generate()
         {
-
             return View("../Games/Show", await _gamesService.Generate());
+        }
+
+        // GET: Games/GridColorHtml/5
+        public IActionResult GridColorHtml(int id)
+        {
+            ViewData["ViewGames"] = _gamesService.FindById(id).ToArray();
+            return View();
+        }
+
+        // GET: Games/GridColor/5
+        public IActionResult GridColor(int id)
+        {
+            //var url = $"https://localhost:44381/Games/GridColorHtml/{id}";
+            string url = $"{Request.HttpContext.Request.Scheme}://{Request.Host.Value}/Games/GridColorHtml/{id}";
+            string path = _gamesService.GridColor(id, url);
+
+            return File(new FileStream(path, FileMode.Open), "image/png", $"grid-{id}.png");
         }
 
         // POST: Games/Create

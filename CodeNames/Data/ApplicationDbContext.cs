@@ -20,6 +20,8 @@ namespace CodeNames.Data
         public virtual DbSet<Teams> Teams { get; set; }
         public virtual DbSet<Words> Words { get; set; }
 
+        public virtual DbSet<ViewGames> ViewGames { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -113,6 +115,28 @@ namespace CodeNames.Data
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasColumnType("varchar(128)");
+            });
+
+            modelBuilder.Entity<ViewGames>(entity =>
+            {
+                entity.ToTable("viewgames");
+
+                entity.HasKey(e => new { e.GameId, e.WordId })
+                    .HasName("PRIMARY");
+
+                entity.Property(e => e.GameId);
+
+                entity.Property(e => e.WordId);
+
+                entity.Property(e => e.Find);
+
+                entity.Property(e => e.Order);
+
+                entity.Property(e => e.TeamId);
+
+                entity.Property(e => e.WordName);
+
+                entity.Property(e => e.ColorName);
             });
         }
     }

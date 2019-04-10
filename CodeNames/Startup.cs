@@ -46,6 +46,8 @@ namespace CodeNames
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
+            services.AddHttpContextAccessor();
+
             // Dependency injection.
             services.AddScoped<IGamesService, GamesService>();
             services.AddScoped<ITeamsService, TeamsService>();
