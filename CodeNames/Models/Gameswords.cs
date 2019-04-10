@@ -8,7 +8,6 @@ namespace CodeNames.Models
         public int GameId { get; set; }
         public int WordId { get; set; }
         public short TeamId { get; set; }
-        public int Id { get; set; }
         public short Order { get; set; }
         public bool? Find { get; set; }
 

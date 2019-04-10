@@ -63,8 +63,6 @@ namespace CodeNames.Data
                     .HasColumnType("bit(1)")
                     .HasDefaultValueSql("'b\\'0\\''");
 
-                entity.Property(e => e.Id).HasColumnType("int(11)");
-
                 entity.Property(e => e.Order).HasColumnType("smallint(6)");
 
                 entity.Property(e => e.TeamId).HasColumnType("smallint(6)");

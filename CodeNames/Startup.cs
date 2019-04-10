@@ -13,7 +13,8 @@ using Microsoft.EntityFrameworkCore;
 using CodeNames.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-
+using CodeNames.Interfaces;
+using CodeNames.Services;
 
 namespace CodeNames
 {
@@ -44,6 +45,10 @@ namespace CodeNames
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            // Dependency injection.
+            services.AddScoped<IGamesService, GamesService>();
+            services.AddScoped<ITeamsService, TeamsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

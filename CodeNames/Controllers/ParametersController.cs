@@ -5,14 +5,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using CodeNames.Models;
+using CodeNames.Services;
+using CodeNames.Interfaces;
 
 namespace CodeNames.Controllers
 {
-    public class HomeController : Controller
+    public class ParametersController : Controller
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
+
     }
 }

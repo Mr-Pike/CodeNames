@@ -8,7 +8,7 @@ namespace CodeNames.Data.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.Sql(@"INSERT INTO Words (name) VALUES
+            migrationBuilder.Sql(@"INSERT INTO Words (Name) VALUES
                 ('Accident'),
                 ('Achat'),
                 ('Acné'),
@@ -707,7 +707,8 @@ namespace CodeNames.Data.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.Sql("DELETE FROM Words", true);
+            // migrationBuilder.Sql("DELETE FROM Words", true);
+            migrationBuilder.Sql("TRUNCATE Words", true);
         }
     }
 }

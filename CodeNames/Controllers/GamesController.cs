@@ -5,17 +5,18 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using CodeNames.Models;
-using CodeNames.Data;
+using CodeNames.Services;
+using CodeNames.Interfaces;
 
 namespace CodeNames.Controllers
 {
     public class GamesController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IGamesService _gamesService;
 
-        public GamesController(ApplicationDbContext context)
+        public GamesController(IGamesService gamesService)
         {
-            _context = context;
+            _gamesService = gamesService;
         }
 
         // GET: Games
@@ -36,10 +37,11 @@ namespace CodeNames.Controllers
             return View();
         }
 
-        // GET: Games/Create
-        public IActionResult Create()
+        // GET: Games/Generate
+        public async Task<IActionResult> Generate()
         {
-            return View();
+
+            return View("../Games/Show", await _gamesService.Generate());
         }
 
         // POST: Games/Create
