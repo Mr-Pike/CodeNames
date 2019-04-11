@@ -1,4 +1,5 @@
-﻿# Create migration.
+﻿# Database.
+# Create migration.
 Add-Migration CreateTableName
 
 # Drop migration.
@@ -9,3 +10,23 @@ Update-Database
 
 # Generate models.
 Scaffold-DbContext "Server=localhost;User Id=root;Password=;Database=codenames2" Pomelo.EntityFrameworkCore.MySql -force -Tables Games
+
+
+# PowerShell.
+# Create user
+net user ServiceUser A1b2C3d4! /add
+
+# Privivileges.
+icacls "C:\CodeNamesService" /grant "ServiceUser:(OI)(CI)WRXFM" /t
+
+# Generate service.
+.\RegisterService.ps1 -Name "CodeNamesService" -DisplayName "CodeNamesService" -Description "CodeNamesService" -Exe "C:\CodeNamesService\CodeNames.exe" -User "APC-MARC\ServiceUser"
+
+# Start Service.
+Start-Service -Name CodeNamesService
+
+# Stop service.
+Stop-Service -Name CodeNamesService
+
+# Remove service
+Remove-Service -Name CodeNamesService
