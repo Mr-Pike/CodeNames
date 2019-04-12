@@ -1,0 +1,73 @@
+﻿@model IEnumerable<ViewGames>
+@{
+    ViewData["Title"] = "Games Page";
+}
+
+<h2>Game</h2>
+<div class="row">
+    <div class="col-12 text-right">
+
+    </div>
+</div>
+<div class="container-game">
+    <div class="row">
+        <div class="col-lg-1"></div>
+        <div data-color="" class="col-lg-2 word-guess"></div>
+        <div data-color="" class="col-lg-2 word-guess"></div>
+        <div data-color="" class="col-lg-2 word-guess"></div>
+        <div data-color="" class="col-lg-2 word-guess"></div>
+        <div data-color="" class="col-lg-2 word-guess"></div>
+        <div class="col-lg-1"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-1"></div>
+        <div data-color="" class="col-lg-2 word-guess"></div>
+        <div data-color="" class="col-lg-2 word-guess"></div>
+        <div data-color="" class="col-lg-2 word-guess"></div>
+        <div data-color="" class="col-lg-2 word-guess"></div>
+        <div data-color="" class="col-lg-2 word-guess"></div>
+        <div class="col-lg-1"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-1"></div>
+        <div data-color="" class="col-lg-2 word-guess"></div>
+        <div data-color="" class="col-lg-2 word-guess"></div>
+        <div data-color="" class="col-lg-2 word-guess"></div>
+        <div data-color="" class="col-lg-2 word-guess"></div>
+        <div data-color="" class="col-lg-2 word-guess"></div>
+        <div class="col-lg-1"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-1"></div>
+        <div data-color="" class="col-lg-2 word-guess"></div>
+        <div data-color="" class="col-lg-2 word-guess"></div>
+        <div data-color="" class="col-lg-2 word-guess"></div>
+        <div data-color="" class="col-lg-2 word-guess"></div>
+        <div data-color="" class="col-lg-2 word-guess"></div>
+        <div class="col-lg-1"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-1"></div>
+        <div data-color="" class="col-lg-2 word-guess"></div>
+        <div data-color="" class="col-lg-2 word-guess"></div>
+        <div data-color="" class="col-lg-2 word-guess"></div>
+        <div data-color="" class="col-lg-2 word-guess"></div>
+        <div data-color="" class="col-lg-2 word-guess"></div>
+        <div class="col-lg-1"></div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('.word-guess').on('click', function () {
+                var color = $(this).attr('data-color');
+                $(this).addClass(color);
+            })
+        });
+    </script>
+}

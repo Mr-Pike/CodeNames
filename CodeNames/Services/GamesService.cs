@@ -23,16 +23,16 @@ namespace CodeNames.Services
             _hostingEnvironment = hostingEnvironment;
         }
 
-        public List<Games> FindAll()
+        public IEnumerable<Games> FindAll()
         {
-            return _context.Games.ToList();
+            return _context.Games;
         }
 
-        public List<ViewGames> FindById(int id)
+        public IEnumerable<ViewGames> FindById(int id)
         {
             try
             {
-                return _context.ViewGames.Where(x => x.GameId == id).OrderBy(x => x.Order).ToList();
+                return _context.ViewGames.Where(x => x.GameId == id).OrderBy(x => x.Order);
             }
             catch
             {

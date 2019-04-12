@@ -25,21 +25,22 @@ namespace CodeNames.Controllers
         }
 
         // GET: Games
-        public IActionResult Index()
+        public IActionResult Index(string sortOrder, string currentFilter, int? pageNumber)
         {
-            return View();
+            return View(_gamesService.FindAll());
         }
 
         // GET: Games/Details/5
-        [HttpGet("{id}")]
-        public IActionResult Details(int? id)
+        public IActionResult Details(int id)
         {
-            if (id == null)
+            IEnumerable<ViewGames> viewGames = _gamesService.FindById(id);
+            if (viewGames == null || viewGames.Count() != 25)
             {
-                return NotFound();
+                TempData["Error"] = "Team doesn't exist.";
+                return RedirectToAction(nameof(Index));
             }
 
-            return View();
+            return View(viewGames);
         }
 
         // GET: Games/Generate

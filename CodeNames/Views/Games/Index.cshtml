@@ -1,10 +1,42 @@
-﻿@{
-    ViewData["Title"] = "Games Page";
+﻿@model IEnumerable<Games>
+@{
+    ViewData["Title"] = "Games";
 }
 
-<a class="btn btn-outline-primary" role="button" asp-area="" asp-controller="Games" asp-action="Generate">Generate Game</a>
-<a class="btn btn-outline-primary" role="button" asp-area="" asp-controller="Games" asp-action="Custom">Custom Game</a>
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<h2>Games</h2>
+
+<div class="row">
+    <div class="col-12 text-right">
+        <p>
+            <a class="btn btn-outline-warning" role="button" asp-area="" asp-controller="Games" asp-action="Custom">Custom Game</a>
+            <a class="btn btn-outline-success" role="button" asp-area="" asp-controller="Games" asp-action="Generate">Generate Game</a>
+        </p>
+    </div>
 </div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Created at</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedAt)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id">View</a> |
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
