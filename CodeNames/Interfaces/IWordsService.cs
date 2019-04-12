@@ -12,7 +12,6 @@ namespace CodeNames.Interfaces
         Task<PaginatedListService<Words>> Paginate(string searchString, string sortOrder, int? pageNumber);
         Words FindById(int id);
         Task<Words> Create(Words word);
-        Task<Words> Update(Words word);
         Task<bool> Delete(Words word);
     }
 }

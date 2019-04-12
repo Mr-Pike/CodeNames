@@ -37,6 +37,29 @@
     <div class="container">
         <partial name="_CookieConsentPartial" />
         <main role="main" class="pb-3">
+            <div class="row">
+                <div class="col-md-12">
+                    @if (TempData["Error"] != null || TempData["Success"] != null || TempData["Warning"] != null)
+                    {
+                        <div class="flash-message">
+
+                            @if (TempData["Error"] != null)
+                            {
+                                <p class="alert alert-danger">@Html.Raw(TempData["Error"])</p>
+                            }
+                            @if (TempData["Warning"] != null)
+                            {
+                                <p class="alert alert-warning">@Html.Raw(TempData["Warning"])</p>
+                            }
+                            @if (TempData["Success"] != null)
+                            {
+                                <p class="alert alert-success">@Html.Raw(TempData["Success"])</p>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+
             @RenderBody()
         </main>
     </div>

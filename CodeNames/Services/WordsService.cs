@@ -75,21 +75,6 @@ namespace CodeNames.Services
             }
         }
 
-        public async Task<Words> Update(Words word)
-        {
-            try
-            {
-                _context.Update(word);
-                await _context.SaveChangesAsync();
-
-                return word;
-            }
-            catch (Exception e)
-            {
-                throw new Exception("Unable to save changes : " + e.Message);
-            }
-        }
-
         public async Task<bool> Delete(Words word)
         {
             try

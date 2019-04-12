@@ -41,85 +41,45 @@ namespace CodeNames.Controllers
             return View(await _wordsService.Paginate(searchString, sortOrder, pageNumber));
         }
 
-        // GET: Words/5
-        /*[HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
-        {
-            Departement departement = _wordsService.FindById(id);
-            if (departement == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(departement);
-        }*/
-
         // POST api/Words
-        /*[HttpPost]
-        public async Task<IActionResult> Post([FromBody] Departement departement)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("Name")] Words words)
         {
             try
             {
-                departement = await _wordsService.Create(departement);
-
-                return Ok(departement);
+                await _wordsService.Create(words);
+                TempData["Success"] = "Word created.";
             }
-            catch (Exception e)
+            catch
             {
-                return BadRequest(new { message = e.Message });
-            }
-        }*/
-
-        // PUT api/Words/5
-        /*[HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody]Departement departement)
-        {
-            // Vérifier la cohérence.
-            if (departement.Id != id)
-            {
-                return BadRequest();
+                TempData["Error"] = "Word not created, already exists.";
             }
 
-            // Vérifier si le département existe.
-            Departement departementInitial = _wordsService.FindById(id);
-            if (departementInitial == null)
-            {
-                return NotFound();
-            }
+            return RedirectToAction(nameof(Index));
+        }
 
-            // Mettre à jour le département.
-            try
-            {
-                departement = await _wordsService.Update(departement, departementInitial);
-                return Ok(departement);
-            }
-            catch (Exception e)
-            {
-                ModelState.AddModelError("error", e.Message);
-                return new BadRequestObjectResult(ModelState);
-            }
-        }*/
-
-        // PUT api/Words/5
-        /*[HttpDelete("{id}")]
-        [ProducesResponseType(204)]
-        [ProducesResponseType(400)]
+        // Get api/Words/5
         public async Task<IActionResult> Delete(int id)
         {
             // Vérifier si le département existe.
-            Departement departement = _wordsService.FindById(id);
-            if (departement == null)
+            Words words = _wordsService.FindById(id);
+            if (words == null)
             {
-                return NotFound();
+                TempData["Error"] = "Word not exists.";
             }
 
             // Essayer de supprimer le département.
-            if (await _wordsService.Delete(departement))
+            if (await _wordsService.Delete(words))
             {
-                return NoContent();
+                TempData["Success"] = "Word removed.";
+            }
+            else
+            {
+                TempData["Error"] = "Word not deleted: error occured.";
             }
 
-            return BadRequest();
-        }*/
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
