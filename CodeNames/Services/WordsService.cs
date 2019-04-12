@@ -48,11 +48,11 @@ namespace CodeNames.Services
             return await PaginatedListService<Words>.CreateAsync(words.AsNoTracking(), pageNumber ?? 1, pageSize);
         }
 
-        public Words FindById(int id)
+        public async Task<Words> FindById(int id)
         {
             try
             {
-                return _context.Words.FirstOrDefault(x => x.Id == id);
+                return await _context.Words.SingleOrDefaultAsync(x => x.Id == id);
             }
             catch
             {

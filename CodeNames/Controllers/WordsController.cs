@@ -19,8 +19,7 @@ namespace CodeNames.Controllers
             _wordsService = wordsService;
         }
 
-        // GET: Words
-        [HttpGet]
+        // GET: Games
         public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? pageNumber)
         {
             ViewData["CurrentSort"] = sortOrder;
@@ -41,7 +40,7 @@ namespace CodeNames.Controllers
             return View(await _wordsService.Paginate(searchString, sortOrder, pageNumber));
         }
 
-        // POST api/Words
+        // POST: Words
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Name")] Words words)
@@ -59,17 +58,17 @@ namespace CodeNames.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // Get api/Words/5
+        // GET: Words/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
-            // Vérifier si le département existe.
-            Words words = _wordsService.FindById(id);
+            Words words = await _wordsService.FindById(id);
             if (words == null)
             {
                 TempData["Error"] = "Word not exists.";
             }
 
-            // Essayer de supprimer le département.
             if (await _wordsService.Delete(words))
             {
                 TempData["Success"] = "Word removed.";
