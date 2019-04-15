@@ -29,6 +29,15 @@
                 </div>
             </div>
             <div class="form-group">
+                <label asp-for="BackgroundColor" class="control-label"></label>
+                <div id="background-color-picker" class="input-group" title="Using input value">
+                    <input asp-for="BackgroundColor" class="form-control" />
+                    <span class="input-group-append">
+                        <span class="input-group-text colorpicker-input-addon"><i></i></span>
+                    </span>
+                </div>
+            </div>
+            <div class="form-group">
                 <a asp-action="Index" class="btn btn-outline-primary">Back to List</a>
                 <input type="submit" value="Save" class="btn btn-outline-success" />
             </div>
@@ -42,6 +51,7 @@
     <script>
         $(function () {
             $('#color-picker').colorpicker();
+            $('#background-color-picker').colorpicker();
         });
     </script>
 }

@@ -10,6 +10,7 @@
         <tr>
             <th>Id</th>
             <th>Name</th>
+            <th>Background color</th>
             <th>Color</th>
             <th></th>
         </tr>
@@ -23,6 +24,9 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    <div class="chip-color" style="background-color: @Html.DisplayFor(modelItem => item.BackgroundColor);"></div>
                 </td>
                 <td>
                     <div class="chip-color" style="background-color: @Html.DisplayFor(modelItem => item.Color);"></div>

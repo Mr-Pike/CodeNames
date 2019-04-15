@@ -11,8 +11,12 @@ namespace CodeNames.Models
         }
 
         public int Id { get; set; }
-        public short ScoreAteam { get; set; }
-        public short ScoreBteam { get; set; }
+        public short ScoreATeam { get; set; }
+        public short ScoreBTeam { get; set; }
+        public short RoundATeam { get; set; }
+        public short RoundBTeam { get; set; }
+        public short StartTeamId { get; set; }
+        public short NextToPlayTeamId { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
 

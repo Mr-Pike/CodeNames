@@ -34,9 +34,44 @@
                 </td>
                 <td>
                     <a asp-action="Details" asp-route-id="@item.Id">View</a> |
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                    @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |*@
+                    <a href="#" data-id="@Html.DisplayFor(modelItem => item.Id)" data-toggle="modal" data-target="#confirm-delete">Delete</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
+<!-- Delete modal -->
+<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                Remove word
+            </div>
+            <form id="form-delete" action="" method="post">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="id" id="game-id" value="" />
+                <div class="modal-body">
+                    Do you really want to remove game?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                    <input type="submit" class="btn btn-danger btn-ok" value="Remove">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var urlDelete = '@Url.Action("Delete", "Games")/0';
+            $('#confirm-delete').on('show.bs.modal', function (e) {
+                $('#form-delete').attr('action', urlDelete.replace('/0', '/' + $(e.relatedTarget).data('id')));
+                $(this).find('#game-id').val($(e.relatedTarget).data('id'));
+            });
+        });
+    </script>
+}

@@ -12,5 +12,6 @@ namespace CodeNames.Models
         public bool? Find { get; set; }
         public string WordName { get; set; }
         public string ColorName { get; set; }
+        public string BackgroundColorName { get; set; }
     }
 }

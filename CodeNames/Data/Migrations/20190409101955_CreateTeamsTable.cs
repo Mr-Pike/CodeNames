@@ -12,7 +12,8 @@ namespace CodeNames.Data.Migrations
                 {
                     Id = table.Column<short>(nullable: false),
                     Name = table.Column<string>(maxLength: 64, nullable: false),
-                    Color = table.Column<string>(maxLength: 7, nullable: true)
+                    Color = table.Column<string>(maxLength: 7, nullable: false),
+                    BackgroundColor = table.Column<string>(maxLength: 7, nullable: true)
                 },
                 constraints: table =>
                 {

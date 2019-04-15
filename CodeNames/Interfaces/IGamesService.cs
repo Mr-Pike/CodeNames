@@ -9,8 +9,11 @@ namespace CodeNames.Interfaces
     public interface IGamesService
     {
         IEnumerable<Games> FindAll();
-        IEnumerable<ViewGames> FindById(int id);
+        Task<Games> FindById(int id);
+        IEnumerable<ViewGames> FindViewGamesById(int id);
         string GridColor(int id, string currentUrl);
         Task<Games> Generate();
+        bool FoundWord(int id, int wordId, short? teamId);
+        Task<bool> Delete(Games games);
     }
 }

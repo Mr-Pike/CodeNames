@@ -32,12 +32,12 @@ namespace CodeNames.Data
 
                 entity.Property(e => e.Id).HasColumnType("int(11)");
 
-                entity.Property(e => e.ScoreAteam)
+                entity.Property(e => e.ScoreATeam)
                     .HasColumnName("ScoreATeam")
                     .HasColumnType("smallint(6)")
                     .HasDefaultValueSql("'0'");
 
-                entity.Property(e => e.ScoreBteam)
+                entity.Property(e => e.ScoreBTeam)
                     .HasColumnName("ScoreBTeam")
                     .HasColumnType("smallint(6)")
                     .HasDefaultValueSql("'0'");
@@ -97,6 +97,8 @@ namespace CodeNames.Data
 
                 entity.Property(e => e.Color).HasColumnType("varchar(7)");
 
+                entity.Property(e => e.BackgroundColor).HasColumnType("varchar(7)");
+
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasColumnType("varchar(64)");
@@ -137,6 +139,8 @@ namespace CodeNames.Data
                 entity.Property(e => e.WordName);
 
                 entity.Property(e => e.ColorName);
+
+                entity.Property(e => e.BackgroundColorName);
             });
         }
     }

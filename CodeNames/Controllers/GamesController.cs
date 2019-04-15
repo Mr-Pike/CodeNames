@@ -33,7 +33,7 @@ namespace CodeNames.Controllers
         // GET: Games/Details/5
         public IActionResult Details(int id)
         {
-            IEnumerable<ViewGames> viewGames = _gamesService.FindById(id);
+            IEnumerable<ViewGames> viewGames = _gamesService.FindViewGamesById(id);
             if (viewGames == null || viewGames.Count() != 25)
             {
                 TempData["Error"] = "Team doesn't exist.";
@@ -46,14 +46,23 @@ namespace CodeNames.Controllers
         // GET: Games/Generate
         public async Task<IActionResult> Generate()
         {
-            return View("../Games/Show", await _gamesService.Generate());
+            Games game = await _gamesService.Generate();
+            return RedirectToAction("Details", new { id = game.Id });
         }
 
         // GET: Games/GridColorHtml/5
         public IActionResult GridColorHtml(int id)
         {
-            ViewData["ViewGames"] = _gamesService.FindById(id).ToArray();
-            return View();
+            return View(_gamesService.FindViewGamesById(id));
+        }
+
+        // POST: Games/FoundWord/
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult FoundWord(int id, int wordId, short? teamId)
+        {
+            bool result = _gamesService.FoundWord(id, wordId, teamId);
+            return new JsonResult(result);
         }
 
         // GET: Games/GridColor/5
@@ -89,10 +98,26 @@ namespace CodeNames.Controllers
         }
 
         // GET: Games/Delete/5
-        [HttpPut("{id}")]
-        public IActionResult Delete(int? id)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int id)
         {
-            return View();
+            Games games = await _gamesService.FindById(id);
+            if (games == null)
+            {
+                TempData["Error"] = "Game not exists.";
+            }
+
+            if (await _gamesService.Delete(games))
+            {
+                TempData["Success"] = "Game removed.";
+            }
+            else
+            {
+                TempData["Error"] = "Game not deleted: error occured.";
+            }
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }

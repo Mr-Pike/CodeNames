@@ -13,6 +13,7 @@ namespace CodeNames.Models
         public short Id { get; set; }
         public string Name { get; set; }
         public string Color { get; set; }
+        public string BackgroundColor { get; set; }
 
         public virtual ICollection<Gameswords> Gameswords { get; set; }
     }

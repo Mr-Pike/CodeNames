@@ -8,7 +8,7 @@ namespace CodeNames.Data.Migrations
         {
             migrationBuilder.Sql(@"CREATE VIEW ViewGames
                                 AS
-                                SELECT GW.GameId, GW.WordId, GW.TeamId, GW.order, GW.Find, W.name AS WordName, T.Color AS ColorName
+                                SELECT GW.GameId, GW.WordId, GW.TeamId, GW.order, GW.Find, W.name AS WordName, T.Color AS ColorName, T.BackgroundColor AS BackgroundColorName
                                 FROM GamesWords GW
                                 INNER JOIN Words W ON GW.WordId = W.Id
                                 INNER JOIN Teams T ON GW.TeamId = T.Id", false);

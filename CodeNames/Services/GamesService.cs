@@ -4,6 +4,7 @@ using CodeNames.Interfaces;
 using CodeNames.Models;
 using CoreHtmlToImage;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -28,7 +29,19 @@ namespace CodeNames.Services
             return _context.Games;
         }
 
-        public IEnumerable<ViewGames> FindById(int id)
+        public async Task<Games> FindById(int id)
+        {
+            try
+            {
+                return await _context.Games.SingleOrDefaultAsync(x => x.Id == id);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public IEnumerable<ViewGames> FindViewGamesById(int id)
         {
             try
             {
@@ -46,12 +59,15 @@ namespace CodeNames.Services
             List<int> wordsId = _context.Words.Select(t => t.Id).ToList();
             Games game = new Games()
             {
-                ScoreAteam = 0,
-                ScoreBteam = 0,
+                ScoreATeam = 0,
+                ScoreBTeam = 0,
+                RoundATeam = 0,
+                RoundBTeam = 0,
                 CreatedAt = DateTime.Now
             };
 
             // Affect word to team and shuffle.
+            short extraTeamId = (short)(new Random()).Next(1, 2);
             List<short> teamsId = new List<short>(new short[] {
                 // 1 Loose team.
                 (short)TeamsEnums.LooseTeam,
@@ -86,7 +102,7 @@ namespace CodeNames.Services
                 (short)TeamsEnums.BlueTeam,
 
                 // 1 Extra Blue/Red Team.
-                (short)(new Random()).Next(1, 2)
+                extraTeamId
             });
 
             // Shuffle teams and words.
@@ -106,6 +122,8 @@ namespace CodeNames.Services
             }
 
             // Create game.
+            game.StartTeamId = extraTeamId;
+            game.NextToPlayTeamId = extraTeamId;
             await _context.AddAsync(game);
             await _context.SaveChangesAsync();
 
@@ -122,6 +140,26 @@ namespace CodeNames.Services
             File.WriteAllBytes(fileGridColor, bytes);
 
             return fileGridColor;
+        }
+
+        public bool FoundWord(int id, int wordId, short? teamId)
+        {
+            return true;
+        }
+
+        public async Task<bool> Delete(Games games)
+        {
+            try
+            {
+                _context.Remove(games);
+                await _context.SaveChangesAsync();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

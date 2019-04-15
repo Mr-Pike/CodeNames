@@ -7,11 +7,11 @@ namespace CodeNames.Data.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.Sql(@"INSERT INTO Teams (Id, Name, Color) VALUES
-                (1, 'Blue Team', '#0763cc'),
-                (2, 'Red Team', '#cc083f'),
-                (3, 'Neutral Team', '#ccbb07'),
-                (4, 'Loose Team', '#1a1b1c')", false);
+            migrationBuilder.Sql(@"INSERT INTO Teams (Id, Name, BackgroundColor, Color) VALUES
+                (1, 'Blue Team', '#0763cc', '#000000'),
+                (2, 'Red Team', '#cc083f', '#000000'),
+                (3, 'Neutral Team', '#ccbb07', '#000000'),
+                (4, 'Loose Team', '#1a1b1c', '#FFFFFF')", false);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
