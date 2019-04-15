@@ -7,6 +7,8 @@ namespace CodeNames.Models
     {
         public Teams()
         {
+            GamesNextToPlayTeam = new HashSet<Games>();
+            GamesStartTeam = new HashSet<Games>();
             Gameswords = new HashSet<Gameswords>();
         }
 
@@ -15,6 +17,8 @@ namespace CodeNames.Models
         public string Color { get; set; }
         public string BackgroundColor { get; set; }
 
+        public virtual ICollection<Games> GamesNextToPlayTeam { get; set; }
+        public virtual ICollection<Games> GamesStartTeam { get; set; }
         public virtual ICollection<Gameswords> Gameswords { get; set; }
     }
 }

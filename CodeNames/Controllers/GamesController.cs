@@ -17,11 +17,13 @@ namespace CodeNames.Controllers
     {
         private readonly IHttpContextAccessor _context;
         private readonly IGamesService _gamesService;
+        private readonly ITeamsService _teamsService;
 
-        public GamesController(IHttpContextAccessor context, IGamesService gamesService)
+        public GamesController(IHttpContextAccessor context, IGamesService gamesService, ITeamsService teamsService)
         {
             _context = context;
             _gamesService = gamesService;
+            _teamsService = teamsService;
         }
 
         // GET: Games
@@ -31,7 +33,7 @@ namespace CodeNames.Controllers
         }
 
         // GET: Games/Details/5
-        public IActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
             IEnumerable<ViewGames> viewGames = _gamesService.FindViewGamesById(id);
             if (viewGames == null || viewGames.Count() != 25)
@@ -39,6 +41,9 @@ namespace CodeNames.Controllers
                 TempData["Error"] = "Team doesn't exist.";
                 return RedirectToAction(nameof(Index));
             }
+
+            ViewData["Game"] = await _gamesService.FindById(id);
+            ViewData["Teams"] = _teamsService.FindAll();
 
             return View(viewGames);
         }
@@ -56,12 +61,13 @@ namespace CodeNames.Controllers
             return View(_gamesService.FindViewGamesById(id));
         }
 
-        // POST: Games/FoundWord/
+        // POST: Games/FoundWord
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult FoundWord(int id, int wordId, short? teamId)
+        public async Task<IActionResult> FoundWord([FromBody]Gameswords gameword)
         {
-            bool result = _gamesService.FoundWord(id, wordId, teamId);
+            var result = await _gamesService.FoundWord(gameword.GameId, gameword.WordId, gameword.TeamId);
+
             return new JsonResult(result);
         }
 

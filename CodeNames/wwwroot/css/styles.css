@@ -32,6 +32,23 @@
     cursor: pointer;
 }
 
+.border-team {
+    width: 250px;
+    height: 75px;
+    border: 1px solid #fff;
+    margin: auto;
+    border-radius: 15px;
+}
+
+.title-team {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.score-team {
+    font-size: 25px;
+}
+
 /*.word-guess {
     border: 2px solid #000;
     color: #000;

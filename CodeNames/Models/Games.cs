@@ -11,15 +11,17 @@ namespace CodeNames.Models
         }
 
         public int Id { get; set; }
-        public short ScoreATeam { get; set; }
-        public short ScoreBTeam { get; set; }
-        public short RoundATeam { get; set; }
-        public short RoundBTeam { get; set; }
+        public short ScoreBlueTeam { get; set; }
+        public short ScoreRedTeam { get; set; }
+        public short RoundBlueTeam { get; set; }
+        public short RoundRedTeam { get; set; }
         public short StartTeamId { get; set; }
         public short NextToPlayTeamId { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
 
+        public virtual Teams NextToPlayTeam { get; set; }
+        public virtual Teams StartTeam { get; set; }
         public virtual ICollection<Gameswords> Gameswords { get; set; }
     }
 }

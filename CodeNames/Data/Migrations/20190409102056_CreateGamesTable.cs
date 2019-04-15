@@ -13,10 +13,10 @@ namespace CodeNames.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                     .Annotation("MySql:ValueGeneratedOnAdd", true),
-                    ScoreATeam = table.Column<short>(defaultValue: 0, nullable:false),
-                    ScoreBTeam = table.Column<short>(defaultValue: 0, nullable: false),
-                    RoundATeam = table.Column<short>(defaultValue: 0, nullable: false),
-                    RoundBTeam = table.Column<short>(defaultValue: 0, nullable: false),
+                    ScoreBlueTeam = table.Column<short>(defaultValue: 0, nullable:false),
+                    ScoreRedTeam = table.Column<short>(defaultValue: 0, nullable: false),
+                    RoundBlueTeam = table.Column<short>(defaultValue: 0, nullable: false),
+                    RoundRedTeam = table.Column<short>(defaultValue: 0, nullable: false),
                     StartTeamId = table.Column<short>(nullable: false),
                     NextToPlayTeamId = table.Column<short>(nullable: false),
                     CreatedAt = table.Column<DateTime>(nullable: false),

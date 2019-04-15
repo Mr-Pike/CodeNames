@@ -13,7 +13,7 @@ namespace CodeNames.Interfaces
         IEnumerable<ViewGames> FindViewGamesById(int id);
         string GridColor(int id, string currentUrl);
         Task<Games> Generate();
-        bool FoundWord(int id, int wordId, short? teamId);
+        Task<Games> FoundWord(int id, int wordId, short? teamId);
         Task<bool> Delete(Games games);
     }
 }

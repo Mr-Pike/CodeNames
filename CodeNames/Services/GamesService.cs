@@ -41,6 +41,18 @@ namespace CodeNames.Services
             }
         }
 
+        public async Task<Gameswords> FindByGameWordId(int id, int wordId)
+        {
+            try
+            {
+                return await _context.Gameswords.SingleOrDefaultAsync(x => x.GameId == id && x.WordId == wordId);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
         public IEnumerable<ViewGames> FindViewGamesById(int id)
         {
             try
@@ -59,10 +71,10 @@ namespace CodeNames.Services
             List<int> wordsId = _context.Words.Select(t => t.Id).ToList();
             Games game = new Games()
             {
-                ScoreATeam = 0,
-                ScoreBTeam = 0,
-                RoundATeam = 0,
-                RoundBTeam = 0,
+                ScoreBlueTeam = 0,
+                ScoreRedTeam = 0,
+                RoundBlueTeam = 0,
+                RoundRedTeam = 0,
                 CreatedAt = DateTime.Now
             };
 
@@ -142,9 +154,35 @@ namespace CodeNames.Services
             return fileGridColor;
         }
 
-        public bool FoundWord(int id, int wordId, short? teamId)
+        public async Task<Games> FoundWord(int id, int wordId, short? teamId)
         {
-            return true;
+            // Word is found.
+            Gameswords gameWord = await FindByGameWordId(id, wordId);
+            gameWord.Find = true;
+            _context.Update(gameWord);
+
+            // Update point game.
+            //TODO: See Points (?).
+            Games game = await FindById(id);
+            if (gameWord.TeamId == teamId)
+            {
+                if (teamId == (short)TeamsEnums.BlueTeam)
+                {
+                    game.ScoreBlueTeam++;
+                }
+                else
+                {
+                    game.ScoreRedTeam++;
+                }
+            }
+            else
+            {
+
+            }
+
+            await _context.SaveChangesAsync();
+
+            return game;
         }
 
         public async Task<bool> Delete(Games games)

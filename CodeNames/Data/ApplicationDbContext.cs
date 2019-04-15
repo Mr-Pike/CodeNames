@@ -30,17 +30,43 @@ namespace CodeNames.Data
             {
                 entity.ToTable("games");
 
+                entity.HasIndex(e => e.NextToPlayTeamId)
+                    .HasName("FK_Games_Teams_NextToPlayTeamId");
+
+                entity.HasIndex(e => e.StartTeamId)
+                    .HasName("FK_Games_Teams_StartTeamId");
+
                 entity.Property(e => e.Id).HasColumnType("int(11)");
 
-                entity.Property(e => e.ScoreATeam)
-                    .HasColumnName("ScoreATeam")
+                entity.Property(e => e.NextToPlayTeamId).HasColumnType("smallint(6)");
+
+                entity.Property(e => e.RoundBlueTeam)
                     .HasColumnType("smallint(6)")
                     .HasDefaultValueSql("'0'");
 
-                entity.Property(e => e.ScoreBTeam)
-                    .HasColumnName("ScoreBTeam")
+                entity.Property(e => e.RoundRedTeam)
                     .HasColumnType("smallint(6)")
                     .HasDefaultValueSql("'0'");
+
+                entity.Property(e => e.ScoreBlueTeam)
+                    .HasColumnType("smallint(6)")
+                    .HasDefaultValueSql("'0'");
+
+                entity.Property(e => e.ScoreRedTeam)
+                    .HasColumnType("smallint(6)")
+                    .HasDefaultValueSql("'0'");
+
+                entity.Property(e => e.StartTeamId).HasColumnType("smallint(6)");
+
+                entity.HasOne(d => d.NextToPlayTeam)
+                    .WithMany(p => p.GamesNextToPlayTeam)
+                    .HasForeignKey(d => d.NextToPlayTeamId)
+                    .HasConstraintName("FK_Games_Teams_NextToPlayTeamId");
+
+                entity.HasOne(d => d.StartTeam)
+                    .WithMany(p => p.GamesStartTeam)
+                    .HasForeignKey(d => d.StartTeamId)
+                    .HasConstraintName("FK_Games_Teams_StartTeamId");
             });
 
             modelBuilder.Entity<Gameswords>(entity =>
