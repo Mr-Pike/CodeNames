@@ -18,12 +18,14 @@ namespace CodeNames.Controllers
         private readonly IHttpContextAccessor _context;
         private readonly IGamesService _gamesService;
         private readonly ITeamsService _teamsService;
+        private readonly IWordsService _wordsService;
 
-        public GamesController(IHttpContextAccessor context, IGamesService gamesService, ITeamsService teamsService)
+        public GamesController(IHttpContextAccessor context, IGamesService gamesService, ITeamsService teamsService, IWordsService wordsService)
         {
             _context = context;
             _gamesService = gamesService;
             _teamsService = teamsService;
+            _wordsService = wordsService;
         }
 
         // GET: Games
@@ -81,10 +83,20 @@ namespace CodeNames.Controllers
             return File(new FileStream(path, FileMode.Open), "image/png", $"grid-{id}.png");
         }
 
+        // GET: Games/Create
+        public IActionResult Create()
+        {
+            ViewData["RealTeamsSelect"] = _teamsService.SelectList(true);
+            ViewData["TeamsSelect"] = _teamsService.SelectList(false);
+            ViewData["WordsSelect"] = _wordsService.SelectList();
+
+            return View();
+        }
+
         // POST: Games/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("")] Games games)
+        public IActionResult Create(Games games)
         {
             return View();
         }

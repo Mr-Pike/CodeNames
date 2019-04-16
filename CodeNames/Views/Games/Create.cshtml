@@ -1,0 +1,83 @@
+﻿@model Games
+@{
+    List<SelectListItem> realTeamsSelect = (List<SelectListItem>)ViewData["RealTeamsSelect"];
+    List<SelectListItem> teamsSelect = (List<SelectListItem>)ViewData["TeamsSelect"];
+    List<SelectListItem> wordsSelect = (List<SelectListItem>)ViewData["WordsSelect"];
+    ViewData["Title"] = "Games Page";
+}
+<h2>Create Game</h2>
+
+
+<form asp-action="Create">
+    <div class="container-game">
+        @Html.AntiForgeryToken()
+        
+        <div class="form-group">
+            <label asp-for="StartTeamId" class="control-label">Start team</label>
+            <select class="form-control" asp-for="StartTeamId" asp-items="@realTeamsSelect">
+                <option>Please select one</option>
+            </select>
+            <span asp-validation-for="StartTeamId" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            @for (int i = 0; i < 25; i += 5)
+            {
+                <div class="row">
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-2 word-guess">
+                        <select class="form-control" name="Gameswords[@(i)].WordId" id="Gameswords[@(i)].WordId" asp-items="@wordsSelect">
+                            <option>Please select one</option>
+                        </select>
+                        <select class="form-control" name="Gameswords[@(i)].TeamId" id="Gameswords[@(i)].TeamId" asp-items="@teamsSelect">
+                            <option>Please select one</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-2 word-guess">
+                        <select class="form-control" name="Gameswords[@(i + 1)].WordId" id="Gameswords[@(i + 1)].WordId" asp-items="@wordsSelect">
+                            <option>Please select one</option>
+                        </select>
+                        <select class="form-control" name="Gameswords[@(i + 1)].TeamId" id="Gameswords[@(i + 1)].TeamId" asp-items="@teamsSelect">
+                            <option>Please select one</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-2 word-guess">
+                        <select class="form-control" name="Gameswords[@(i + 2)].WordId" id="Gameswords[@(i + 2)].WordId" asp-items="@wordsSelect">
+                            <option>Please select one</option>
+                        </select>
+                        <select class="form-control" name="Gameswords[@(i + 2)].TeamId" id="Gameswords[@(i + 2)].TeamId" asp-items="@teamsSelect">
+                            <option>Please select one</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-2 word-guess">
+                        <select class="form-control" name="Gameswords[@(i + 3)].WordId" id="Gameswords[@(i + 3)].WordId" asp-items="@wordsSelect">
+                            <option>Please select one</option>
+                        </select>
+                        <select class="form-control" name="Gameswords[@(i + 3)].TeamId" id="Gameswords[@(i + 3)].TeamId" asp-items="@teamsSelect">
+                            <option>Please select one</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-2 word-guess">
+                        <select class="form-control" name="Gameswords[@(i + 4)].WordId" id="Gameswords[@(i + 4)].WordId" asp-items="@wordsSelect">
+                            <option>Please select one</option>
+                        </select>
+                        <select class="form-control" name="Gameswords[@(i + 4)].TeamId" id="Gameswords[@(i + 4)].TeamId" asp-items="@teamsSelect">
+                            <option>Please select one</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-1"></div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="form-group">
+        <a class="btn btn-outline-primary" role="button" asp-area="" asp-controller="Games" asp-action="Index">Back to list</a>
+        <input type="submit" value="Save" class="btn btn-outline-success" />
+    </div>
+</form>
+
+
+@section Scripts {
+
+}

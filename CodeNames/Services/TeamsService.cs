@@ -1,6 +1,7 @@
 ﻿using CodeNames.Data;
 using CodeNames.Interfaces;
 using CodeNames.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -41,6 +42,30 @@ namespace CodeNames.Services
             await _context.SaveChangesAsync();
 
             return teams;
+        }
+
+        public List<SelectListItem> SelectList(bool realTeam)
+        {
+            IEnumerable<Teams> teams = FindAll();
+
+            if (realTeam)
+            {
+                teams = teams.Where(x => x.Id < 3);
+            }
+
+            List<SelectListItem> listSelectListItem = new List<SelectListItem>();
+
+            foreach (var team in teams)
+            {
+                listSelectListItem.Add(new SelectListItem()
+                {
+
+                    Text = team.Name,
+                    Value = team.Id.ToString()
+                });
+            }
+
+            return listSelectListItem;
         }
     }
 }

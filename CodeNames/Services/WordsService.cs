@@ -1,6 +1,7 @@
 ﻿using CodeNames.Data;
 using CodeNames.Interfaces;
 using CodeNames.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,11 @@ namespace CodeNames.Services
         public WordsService(ApplicationDbContext context)
         {
             _context = context;
+        }
+
+        public IEnumerable<Words> FindAll()
+        {
+            return _context.Words;
         }
 
         public async Task<PaginatedListService<Words>> Paginate(string searchString, string sortOrder, int? pageNumber)
@@ -88,6 +94,24 @@ namespace CodeNames.Services
             {
                 return false;
             }
+        }
+
+        public List<SelectListItem> SelectList()
+        {
+            IEnumerable<Words> words = FindAll();
+            List<SelectListItem> listSelectListItem = new List<SelectListItem>();
+
+            foreach (var word in words)
+            {
+                listSelectListItem.Add(new SelectListItem()
+                {
+                    
+                    Text = word.Name,
+                    Value = word.Id.ToString()
+                });
+            }
+
+            return listSelectListItem;
         }
     }
 }
