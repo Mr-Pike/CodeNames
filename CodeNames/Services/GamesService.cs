@@ -33,11 +33,57 @@ namespace CodeNames.Services
         {
             try
             {
-                return await _context.Games.SingleOrDefaultAsync(x => x.Id == id);
+                return await _context.Games.Include(x => x.Gameswords).SingleOrDefaultAsync(x => x.Id == id);
             }
             catch
             {
                 return null;
+            }
+        }
+
+        public async Task<Games> Create(Games games)
+        {
+            try
+            {
+                games.NextToPlayTeamId = games.StartTeamId;
+                games.CreatedAt = DateTime.Now;
+
+                for (short i = 0; i < (short)games.Gameswords.Count; i++)
+                {
+                    games.Gameswords.ElementAt(i).Order = i;
+                }
+
+                await _context.AddAsync(games);
+                await _context.SaveChangesAsync();
+
+                return games;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Unable to save changes : " + e.Message);
+            }
+        }
+
+        public async Task<Games> Update(Games games)
+        {
+            try
+            {
+                games.NextToPlayTeamId = games.StartTeamId;
+                games.UpdatedAt = DateTime.Now;
+
+                for (short i = 0; i < (short)games.Gameswords.Count; i++)
+                {
+                    games.Gameswords.ElementAt(i).Order = i;
+                }
+
+                await _context.AddAsync(games);
+                await _context.SaveChangesAsync();
+
+                return games;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Unable to save changes : " + e.Message);
             }
         }
 

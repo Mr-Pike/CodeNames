@@ -8,7 +8,8 @@
 <h2>Create Game</h2>
 
 
-<form asp-action="Create">
+<form asp-action="Edit">
+    <input asp-for="Id" type="hidden" />
     <div class="container-game">
         @Html.AntiForgeryToken()
         
@@ -60,7 +61,7 @@
                     <div class="col-lg-2 word-guess">
                         <select class="form-control" asp-for="@Model.Gameswords.ElementAt(i + 4).WordId" name="Gameswords[@(i + 4)].WordId" asp-items="@wordsSelect">
                             <option>Please select one</option>
-                        </select>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+                        </select>
                         <select class="form-control" asp-for="@Model.Gameswords.ElementAt(i + 4).TeamId" name="Gameswords[@(i + 4)].TeamId" asp-items="@teamsSelect">
                             <option>Please select one</option>
                         </select>
@@ -76,8 +77,3 @@
         <input type="submit" value="Save" class="btn btn-outline-success" />
     </div>
 </form>
-
-
-@section Scripts {
-
-}

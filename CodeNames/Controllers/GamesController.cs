@@ -96,23 +96,59 @@ namespace CodeNames.Controllers
         // POST: Games/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Games games)
-        {
-            return View();
+        public async Task<IActionResult> Create(Games game)
+        { 
+            TryValidateModel(game);
+
+            if (!ModelState.IsValid)
+            {
+                ViewData["RealTeamsSelect"] = _teamsService.SelectList(true);
+                ViewData["TeamsSelect"] = _teamsService.SelectList(false);
+                ViewData["WordsSelect"] = _wordsService.SelectList();
+
+                return View(game);
+            }
+
+            game = await _gamesService.Create(game);
+
+            return RedirectToAction("Details", new { id = game.Id });
         }
 
         // GET: Games/Edit/5
-        public IActionResult Edit(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
-            return View();
+            Games games = await _gamesService.FindById(id);
+            if (games == null)
+            {
+                TempData["Error"] = "Game not exists.";
+            }
+
+            ViewData["RealTeamsSelect"] = _teamsService.SelectList(true);
+            ViewData["TeamsSelect"] = _teamsService.SelectList(false);
+            ViewData["WordsSelect"] = _wordsService.SelectList();
+
+            return View(games);
         }
 
         // POST: Games/Edit/5
         [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public IActionResult EditPost()
+        public async Task<IActionResult> EditPost(Games game)
         {
-            return View();
+            TryValidateModel(game);
+
+            if (!ModelState.IsValid)
+            {
+                ViewData["RealTeamsSelect"] = _teamsService.SelectList(true);
+                ViewData["TeamsSelect"] = _teamsService.SelectList(false);
+                ViewData["WordsSelect"] = _wordsService.SelectList();
+
+                return View(game);
+            }
+
+            game = await _gamesService.Update(game);
+
+            return RedirectToAction("Details", new { id = game.Id });
         }
 
         // GET: Games/Delete/5

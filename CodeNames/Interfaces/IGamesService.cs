@@ -10,6 +10,8 @@ namespace CodeNames.Interfaces
     {
         IEnumerable<Games> FindAll();
         Task<Games> FindById(int id);
+        Task<Games> Create(Games games);
+        Task<Games> Update(Games games);
         IEnumerable<ViewGames> FindViewGamesById(int id);
         string GridColor(int id, string currentUrl);
         Task<Games> Generate();
