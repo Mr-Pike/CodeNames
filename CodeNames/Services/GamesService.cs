@@ -68,18 +68,27 @@ namespace CodeNames.Services
         {
             try
             {
-                games.NextToPlayTeamId = games.StartTeamId;
-                games.UpdatedAt = DateTime.Now;
+                // Delete all game words.
+                var gameIni = await FindById(games.Id);
+                _context.RemoveRange(gameIni.Gameswords);
+                await _context.SaveChangesAsync();
+
+                // Update data.
+                gameIni.StartTeamId = gameIni.NextToPlayTeamId = games.StartTeamId;
+                gameIni.NextToPlayTeamId = games.StartTeamId;
+                gameIni.UpdatedAt = DateTime.Now;
 
                 for (short i = 0; i < (short)games.Gameswords.Count; i++)
                 {
                     games.Gameswords.ElementAt(i).Order = i;
                 }
 
-                await _context.AddAsync(games);
+                gameIni.Gameswords = games.Gameswords;
+
+                _context.Update(gameIni);
                 await _context.SaveChangesAsync();
 
-                return games;
+                return gameIni;
             }
             catch (Exception e)
             {
