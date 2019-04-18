@@ -58,8 +58,11 @@ namespace CodeNames.Controllers
         }
 
         // GET: Games/GridColorHtml/5
-        public IActionResult GridColorHtml(int id)
+        public async Task<IActionResult> GridColorHtml(int id)
         {
+            Games game = await _gamesService.FindById(id);
+            ViewData["BackgroundColorTeamStarted"] =  (await _teamsService.FindById(game.StartTeamId)).BackgroundColor;
+
             return View(_gamesService.FindViewGamesById(id));
         }
 
