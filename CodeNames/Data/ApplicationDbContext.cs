@@ -17,10 +17,13 @@ namespace CodeNames.Data
 
         public virtual DbSet<Games> Games { get; set; }
         public virtual DbSet<Gameswords> Gameswords { get; set; }
+        public virtual DbSet<Parameters> Parameters { get; set; }
         public virtual DbSet<Teams> Teams { get; set; }
+        public virtual DbSet<Themes> Themes { get; set; }
+        public virtual DbSet<Themeswords> Themeswords { get; set; }
         public virtual DbSet<Words> Words { get; set; }
 
-        public virtual DbSet<ViewGames> ViewGames { get; set; }
+        public virtual DbSet<GamesView> GamesView { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -111,6 +114,21 @@ namespace CodeNames.Data
                     .HasConstraintName("FK_GamesWords_Words_WordId");
             });
 
+            modelBuilder.Entity<Parameters>(entity =>
+            {
+                entity.ToTable("parameters");
+
+                entity.HasIndex(e => e.Name)
+                    .HasName("ParameterNameIndex")
+                    .IsUnique();
+
+                entity.Property(e => e.Id).HasColumnType("smallint(6)");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasColumnType("varchar(64)");
+            });
+
             modelBuilder.Entity<Teams>(entity =>
             {
                 entity.ToTable("teams");
@@ -130,6 +148,46 @@ namespace CodeNames.Data
                     .HasColumnType("varchar(64)");
             });
 
+            modelBuilder.Entity<Themes>(entity =>
+            {
+                entity.ToTable("themes");
+
+                entity.HasIndex(e => e.Name)
+                    .HasName("ThemeNameIndex")
+                    .IsUnique();
+
+                entity.Property(e => e.Id).HasColumnType("int(11)");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasColumnType("varchar(64)");
+            });
+
+            modelBuilder.Entity<Themeswords>(entity =>
+            {
+                entity.HasKey(e => new { e.ThemeId, e.WordId })
+                    .HasName("PRIMARY");
+
+                entity.ToTable("themeswords");
+
+                entity.HasIndex(e => e.WordId)
+                    .HasName("FK_ThemesWords_Words_WordId");
+
+                entity.Property(e => e.ThemeId).HasColumnType("int(11)");
+
+                entity.Property(e => e.WordId).HasColumnType("int(11)");
+
+                entity.HasOne(d => d.Theme)
+                    .WithMany(p => p.Themeswords)
+                    .HasForeignKey(d => d.ThemeId)
+                    .HasConstraintName("FK_ThemesWords_Themes_ThemeId");
+
+                entity.HasOne(d => d.Word)
+                    .WithMany(p => p.Themeswords)
+                    .HasForeignKey(d => d.WordId)
+                    .HasConstraintName("FK_ThemesWords_Words_WordId");
+            });
+
             modelBuilder.Entity<Words>(entity =>
             {
                 entity.ToTable("words");
@@ -145,9 +203,9 @@ namespace CodeNames.Data
                     .HasColumnType("varchar(128)");
             });
 
-            modelBuilder.Entity<ViewGames>(entity =>
+            modelBuilder.Entity<GamesView>(entity =>
             {
-                entity.ToTable("viewgames");
+                entity.ToTable("_gamesview");
 
                 entity.HasKey(e => new { e.GameId, e.WordId })
                     .HasName("PRIMARY");

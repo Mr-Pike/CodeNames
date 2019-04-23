@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace CodeNames.Models
 {
-    public partial class ViewGames
+    public partial class GamesView
     {
         public int GameId { get; set; }
         public int WordId { get; set; }

@@ -37,7 +37,7 @@ namespace CodeNames.Controllers
         // GET: Games/Details/5
         public async Task<IActionResult> Details(int id)
         {
-            IEnumerable<ViewGames> viewGames = _gamesService.FindViewGamesById(id);
+            IEnumerable<GamesView> viewGames = _gamesService.FindViewGamesById(id);
             if (viewGames == null || viewGames.Count() != 25)
             {
                 TempData["Error"] = "Team doesn't exist.";

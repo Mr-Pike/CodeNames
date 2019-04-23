@@ -6,7 +6,7 @@ namespace CodeNames.Data.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.Sql(@"CREATE VIEW ViewGames
+            migrationBuilder.Sql(@"CREATE VIEW _GamesView
                                 AS
                                 SELECT GW.GameId, GW.WordId, GW.TeamId, GW.order, GW.Find, W.name AS WordName, T.Color AS ColorName, T.BackgroundColor AS BackgroundColorName
                                 FROM GamesWords GW
@@ -16,7 +16,7 @@ namespace CodeNames.Data.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.Sql("DROP VIEW IF EXISTS ViewGames", true);
+            migrationBuilder.Sql("DROP VIEW IF EXISTS _GamesView", true);
         }
     }
 }

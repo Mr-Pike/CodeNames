@@ -108,11 +108,11 @@ namespace CodeNames.Services
             }
         }
 
-        public IEnumerable<ViewGames> FindViewGamesById(int id)
+        public IEnumerable<GamesView> FindViewGamesById(int id)
         {
             try
             {
-                return _context.ViewGames.Where(x => x.GameId == id).OrderBy(x => x.Order);
+                return _context.GamesView.Where(x => x.GameId == id).OrderBy(x => x.Order);
             }
             catch
             {
