@@ -95,5 +95,24 @@ namespace CodeNames.Services
                 return false;
             }
         }
+
+        public List<SelectListItem> SelectList(ICollection<Themeswords> themesWords)
+        {
+            IEnumerable<Themes> themes = FindAll();
+            List<SelectListItem> listSelectListItem = new List<SelectListItem>();
+
+            foreach (var theme in themes)
+            {
+                listSelectListItem.Add(new SelectListItem()
+                {
+
+                    Text = theme.Name,
+                    Value = theme.Id.ToString(),
+                    Selected = themesWords != null && themesWords.Where(x => x.ThemeId == theme.Id).FirstOrDefault() != null
+                });
+            }
+
+            return listSelectListItem;
+        }
     }
 }

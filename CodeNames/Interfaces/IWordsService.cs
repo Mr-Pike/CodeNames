@@ -11,9 +11,10 @@ namespace CodeNames.Interfaces
     public interface IWordsService
     {
         IEnumerable<Words> FindAll();
-        Task<PaginatedListService<Words>> Paginate(string searchString, string sortOrder, int? pageNumber);
+        Task<PaginatedListService<WordsView>> Paginate(string searchString, string sortOrder, int? pageNumber);
         Task<Words> FindById(int id);
-        Task<Words> Create(Words word);
+        Task<Words> Create(Words word, string themes);
+        Task<Words> Update(Words word, string themes);
         Task<bool> Delete(Words word);
         List<SelectListItem> SelectList();
     }

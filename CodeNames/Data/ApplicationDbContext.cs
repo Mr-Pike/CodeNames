@@ -24,6 +24,7 @@ namespace CodeNames.Data
         public virtual DbSet<Words> Words { get; set; }
 
         public virtual DbSet<GamesView> GamesView { get; set; }
+        public virtual DbSet<WordsView> WordsView { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -225,6 +226,17 @@ namespace CodeNames.Data
                 entity.Property(e => e.ColorName);
 
                 entity.Property(e => e.BackgroundColorName);
+            });
+
+            modelBuilder.Entity<WordsView>(entity =>
+            {
+                entity.ToTable("_wordsview");
+
+                entity.Property(e => e.Id).HasColumnType("int(11)");
+
+                entity.Property(e => e.Name).HasColumnType("varchar(128)");
+
+                entity.Property(e => e.ThemesName).HasColumnType("varchar(255)");
             });
         }
     }

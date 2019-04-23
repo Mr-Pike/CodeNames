@@ -25,9 +25,9 @@ namespace CodeNames.Services
             return _context.Words;
         }
 
-        public async Task<PaginatedListService<Words>> Paginate(string searchString, string sortOrder, int? pageNumber)
+        public async Task<PaginatedListService<WordsView>> Paginate(string searchString, string sortOrder, int? pageNumber)
         {
-            var words = from w in _context.Words
+            var words = from w in _context.WordsView
                         select w;
 
             if (!string.IsNullOrEmpty(searchString))
@@ -46,19 +46,25 @@ namespace CodeNames.Services
                 case "name_desc":
                     words = words.OrderByDescending(s => s.Name);
                     break;
+                case "ThemesName":
+                    words = words.OrderBy(s => s.ThemesName);
+                    break;
+                case "themesname_desc":
+                    words = words.OrderByDescending(s => s.ThemesName);
+                    break;
                 default:
                     words = words.OrderBy(s => s.Name);
                     break;
             }
 
-            return await PaginatedListService<Words>.CreateAsync(words.AsNoTracking(), pageNumber ?? 1, pageSize);
+            return await PaginatedListService<WordsView>.CreateAsync(words.AsNoTracking(), pageNumber ?? 1, pageSize);
         }
 
         public async Task<Words> FindById(int id)
         {
             try
             {
-                return await _context.Words.SingleOrDefaultAsync(x => x.Id == id);
+                return await _context.Words.Include(x => x.Themeswords).SingleOrDefaultAsync(x => x.Id == id);
             }
             catch
             {
@@ -66,14 +72,58 @@ namespace CodeNames.Services
             }
         }
 
-        public async Task<Words> Create(Words word)
+        public async Task<Words> Create(Words word, string themes)
         {
             try
             {
+                // Check if themes is null or empty.
+                if (!string.IsNullOrEmpty(themes))
+                {
+                    string[] themesSplited = themes.Split(',');
+                    foreach (var theme in themesSplited)
+                    {
+                        word.Themeswords.Add(new Themeswords() { ThemeId = int.Parse(theme) });
+                    }
+                }
+
+
                 await _context.AddAsync(word);
                 await _context.SaveChangesAsync();
 
                 return word;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Unable to save changes : " + e.Message);
+            }
+        }
+
+        public async Task<Words> Update(Words word, string themes)
+        {
+            try
+            {
+                // Delete all themes.
+                var wordIni = await FindById(word.Id);
+                _context.RemoveRange(wordIni.Themeswords);
+                await _context.SaveChangesAsync();
+
+                // Update name's world.
+                wordIni.Name = word.Name;
+
+                // Check if themes is null or empty.
+                if (!string.IsNullOrEmpty(themes))
+                {
+                    string[] themesSplited = themes.Split(',');
+                    foreach (var theme in themesSplited)
+                    {
+                        wordIni.Themeswords.Add(new Themeswords() { ThemeId = int.Parse(theme) });
+                    }
+                }
+
+                _context.Update(wordIni);
+                await _context.SaveChangesAsync();
+
+                return wordIni;
             }
             catch (Exception e)
             {
@@ -107,7 +157,7 @@ namespace CodeNames.Services
                 {
                     
                     Text = word.Name,
-                    Value = word.Id.ToString()
+                    Value = word.Id.ToString(),
                 });
             }
 

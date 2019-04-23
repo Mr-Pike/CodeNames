@@ -15,5 +15,6 @@ namespace CodeNames.Interfaces
         Task<Themes> FindById(int id);
         Task<Themes> Create(Themes theme);
         Task<bool> Delete(Themes theme);
+        List<SelectListItem> SelectList(ICollection<Themeswords> themesWords);
     }
 }

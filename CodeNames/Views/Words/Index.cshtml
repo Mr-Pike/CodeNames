@@ -1,4 +1,4 @@
-﻿@model CodeNames.Services.PaginatedListService<Words>
+﻿@model CodeNames.Services.PaginatedListService<WordsView>
 @{
     ViewData["Title"] = "Words";
 }
@@ -18,7 +18,7 @@
         </form>
     </div>
     <div class="col-6 text-right">
-        <a id="create-model" class="btn btn-outline-success" role="button" href="#" data-toggle="modal" data-target="#formModal">Create New</a>
+        <a class="btn btn-outline-success" role="button" asp-action="Create">Create New</a>
     </div>
 </div>
 
@@ -31,6 +31,9 @@
             </th>
             <th>
                 <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]">Name</a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["ThemesSortParm"]">Themes</a>
             </th>
             <th></th>
         </tr>
@@ -46,43 +49,16 @@
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
+                    @Html.DisplayFor(modelItem => item.ThemesName)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                     <a href="#" data-id="@Html.DisplayFor(modelItem => item.Id)" data-word="@Html.DisplayFor(modelItem => item.Name)" data-toggle="modal" data-target="#confirm-delete">Delete</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
-
-<!-- Create modal -->
-<div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="formModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Create Word</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form asp-action="Create">
-                @Html.AntiForgeryToken()
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-12 col-sm-12 col-xs-12">
-                            <div class="form-group">
-                                <label for="Name" class="control-label">Word</label>
-                                <input name="Name" type="text" class="form-control" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                    <input type="submit" class="btn btn-success" value="Save">
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
 
 <!-- Delete modal -->
 <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
