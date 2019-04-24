@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<Games>
 @{
+    IEnumerable<Themes> themes = (IEnumerable<Themes>)ViewData["Themes"];
     ViewData["Title"] = "Games";
 }
 
@@ -9,7 +10,8 @@
     <div class="col-12 text-right">
         <p>
             <a class="btn btn-outline-warning" role="button" asp-area="" asp-controller="Games" asp-action="Create">Custom Game</a>
-            <a class="btn btn-outline-success" role="button" asp-area="" asp-controller="Games" asp-action="Generate">Generate Game</a>
+            @*<a class="btn btn-outline-success" role="button" asp-area="" asp-controller="Games" asp-action="Generate">Generate Game</a>*@
+            <a class="btn btn-outline-success" href="#" data-toggle="modal" data-target="#choose-themes">Generate Game</a>
         </p>
     </div>
 </div>
@@ -42,6 +44,35 @@
     </tbody>
 </table>
 
+<!-- Choose Themes modal -->
+<div class="modal fade" id="choose-themes" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                Choose words themes (optional)
+            </div>
+            <form asp-action="Generate">
+                @Html.AntiForgeryToken()
+                <div class="modal-body">
+                    @foreach (var theme in themes)
+                    {
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="@theme.Id" name="themes[]" id="all-themes">
+                            <label class="form-check-label" for="themes[]">
+                                @theme.Name
+                            </label>
+                        </div>
+                    }
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                    <input type="submit" class="btn btn-success btn-ok" value="Generate">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <!-- Delete modal -->
 <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -72,6 +103,8 @@
                 $('#form-delete').attr('action', urlDelete.replace('/0', '/' + $(e.relatedTarget).data('id')));
                 $(this).find('#game-id').val($(e.relatedTarget).data('id'));
             });
+
+            $('')
         });
     </script>
 }

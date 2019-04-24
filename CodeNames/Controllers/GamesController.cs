@@ -18,19 +18,23 @@ namespace CodeNames.Controllers
         private readonly IHttpContextAccessor _context;
         private readonly IGamesService _gamesService;
         private readonly ITeamsService _teamsService;
+        private readonly IThemesService _themesService;
         private readonly IWordsService _wordsService;
 
-        public GamesController(IHttpContextAccessor context, IGamesService gamesService, ITeamsService teamsService, IWordsService wordsService)
+        public GamesController(IHttpContextAccessor context, IGamesService gamesService, ITeamsService teamsService, IThemesService themesService, IWordsService wordsService)
         {
             _context = context;
             _gamesService = gamesService;
             _teamsService = teamsService;
+            _themesService = themesService;
             _wordsService = wordsService;
         }
 
         // GET: Games
         public IActionResult Index(string sortOrder, string currentFilter, int? pageNumber)
         {
+            ViewData["Themes"] = _themesService.FindAll();
+
             return View(_gamesService.FindAll());
         }
 
@@ -50,11 +54,21 @@ namespace CodeNames.Controllers
             return View(viewGames);
         }
 
-        // GET: Games/Generate
-        public async Task<IActionResult> Generate()
+        // POST: Games/Generate
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Generate(int[] themes)
         {
-            Games game = await _gamesService.Generate();
-            return RedirectToAction("Details", new { id = game.Id });
+            try
+            {
+                Games game = await _gamesService.Generate(themes);
+                return RedirectToAction("Details", new { id = game.Id });
+            }
+            catch (Exception e)
+            {
+                TempData["Error"] = $"Error occured: {e.Message}";
+                return RedirectToAction("Index");
+            }
         }
 
         // GET: Games/GridColorHtml/5

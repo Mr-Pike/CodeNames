@@ -26,7 +26,7 @@ namespace CodeNames.Services
 
         public IEnumerable<Games> FindAll()
         {
-            return _context.Games;
+            return _context.Games.OrderByDescending(x => x.Id);
         }
 
         public async Task<Games> FindById(int id)
@@ -120,10 +120,20 @@ namespace CodeNames.Services
             }
         }
 
-        public async Task<Games> Generate()
+        public async Task<Games> Generate(int[] themes)
         {
             // Get all words.
-            List<int> wordsId = _context.Words.Select(t => t.Id).ToList();
+            List<int> wordsId = (themes == null || themes.Count() == 0) 
+                ? _context.Words.Select(t => t.Id).ToList() 
+                : _context.Themeswords.Where(x => themes.Contains(x.ThemeId)).Select(group => group.WordId).Distinct().ToList();
+
+            // Check if the number of words if sufficient.
+            if (wordsId.Count < 25)
+            {
+                throw new Exception("Number of words for selected themes is not sufficient for generating a new game. Please add extra words or themes");
+            }
+
+            // Initialize game.
             Games game = new Games()
             {
                 ScoreBlueTeam = 0,
@@ -134,7 +144,7 @@ namespace CodeNames.Services
             };
 
             // Affect word to team and shuffle.
-            short extraTeamId = (short)(new Random()).Next(1, 2);
+            short extraTeamId = (short)(new Random()).Next(1, 3);
             List<short> teamsId = new List<short>(new short[] {
                 // 1 Loose team.
                 (short)TeamsEnums.LooseTeam,

@@ -14,7 +14,7 @@ namespace CodeNames.Interfaces
         Task<Games> Update(Games games);
         IEnumerable<GamesView> FindViewGamesById(int id);
         string GridColor(int id, string currentUrl);
-        Task<Games> Generate();
+        Task<Games> Generate(int[] themes);
         Task<Games> FoundWord(int id, int wordId, short? teamId);
         Task<bool> Delete(Games games);
     }
