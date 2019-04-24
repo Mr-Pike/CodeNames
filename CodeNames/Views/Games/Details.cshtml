@@ -10,6 +10,7 @@
         <p>
             <a class="btn btn-lg btn-outline-warning" role="button" asp-area="" asp-controller="Games" asp-action="Index">Back to list</a>
             <a class="btn btn-lg btn-outline-success" role="button" asp-area="" asp-controller="Games" asp-action="GridColor" asp-route-id="@Model.ElementAt(0).GameId">Color Grid</a>
+            <a id="btn-black-mode" class="btn btn-lg btn-outline-secondary" role="button" href="#">Black mode</a>
         </p>
     </div>
 </div>
@@ -20,36 +21,36 @@
     @for (int i = 0; i < Model.Count(); i += 5)
     {
         <div class="row">
-            <div class="col-lg-1"></div>
-            <div data-word-id="@Model.ElementAt(i).WordId" data-color="@Model.ElementAt(i).ColorName" data-background-color="@Model.ElementAt(i).BackgroundColorName" class="col-lg-2 word-guess">@Model.ElementAt(i).WordName</div>
-            <div data-word-id="@Model.ElementAt(i + 1).WordId" data-color="@Model.ElementAt(i + 1).ColorName" data-background-color="@Model.ElementAt(i + 1).BackgroundColorName" class="col-lg-2 word-guess">@Model.ElementAt(i + 1).WordName</div>
-            <div data-word-id="@Model.ElementAt(i + 2).WordId" data-color="@Model.ElementAt(i + 2).ColorName" data-background-color="@Model.ElementAt(i + 2).BackgroundColorName" class="col-lg-2 word-guess">@Model.ElementAt(i + 2).WordName</div>
-            <div data-word-id="@Model.ElementAt(i + 3).WordId" data-color="@Model.ElementAt(i + 3).ColorName" data-background-color="@Model.ElementAt(i + 3).BackgroundColorName" class="col-lg-2 word-guess">@Model.ElementAt(i + 3).WordName</div>
-            <div data-word-id="@Model.ElementAt(i + 4).WordId" data-color="@Model.ElementAt(i + 4).ColorName" data-background-color="@Model.ElementAt(i + 4).BackgroundColorName" class="col-lg-2 word-guess">@Model.ElementAt(i + 4).WordName</div>
-            <div class="col-lg-1"></div>
+            <div data-team-id="@Model.ElementAt(i).TeamId" data-word-id="@Model.ElementAt(i).WordId" data-color="@Model.ElementAt(i).ColorName" data-background-color="@Model.ElementAt(i).BackgroundColorName" class="col word-guess">@Model.ElementAt(i).WordName</div>
+            <div data-team-id="@Model.ElementAt(i + 1).TeamId" data-word-id="@Model.ElementAt(i + 1).WordId" data-color="@Model.ElementAt(i + 1).ColorName" data-background-color="@Model.ElementAt(i + 1).BackgroundColorName" class="col word-guess">@Model.ElementAt(i + 1).WordName</div>
+            <div data-team-id="@Model.ElementAt(i + 2).TeamId" data-word-id="@Model.ElementAt(i + 2).WordId" data-color="@Model.ElementAt(i + 2).ColorName" data-background-color="@Model.ElementAt(i + 2).BackgroundColorName" class="col word-guess">@Model.ElementAt(i + 2).WordName</div>
+            <div data-team-id="@Model.ElementAt(i + 3).TeamId" data-word-id="@Model.ElementAt(i + 3).WordId" data-color="@Model.ElementAt(i + 3).ColorName" data-background-color="@Model.ElementAt(i + 3).BackgroundColorName" class="col word-guess">@Model.ElementAt(i + 3).WordName</div>
+            <div data-team-id="@Model.ElementAt(i + 4).TeamId" data-word-id="@Model.ElementAt(i + 4).WordId" data-color="@Model.ElementAt(i + 4).ColorName" data-background-color="@Model.ElementAt(i + 4).BackgroundColorName" class="col word-guess">@Model.ElementAt(i + 4).WordName</div>
         </div>
     }
 </div>
 
 <p></p>
 
-<div class="row text-center">
-    <div class="col-lg-4">
-        <div class="border-team" style="border-color: @teams.ElementAt(0).BackgroundColor;">
-            <span class="title-team" style="color: @teams.ElementAt(0).BackgroundColor;">@teams.ElementAt(0).Name<br /></span>
-            <span class="score-team">@game.ScoreBlueTeam</span>
+@*
+    <div class="row text-center">
+        <div class="col-lg-4">
+            <div class="border-team" style="border-color: @teams.ElementAt(0).BackgroundColor;">
+                <span class="title-team" style="color: @teams.ElementAt(0).BackgroundColor;">@teams.ElementAt(0).Name<br /></span>
+                <span class="score-team">@game.ScoreBlueTeam</span>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <button id="next-round" role="button" class="btn btn-lg btn-outline-success">Next round</button>
+        </div>
+        <div class="col-lg-4">
+            <div class="border-team" style="border-color: @teams.ElementAt(1).BackgroundColor">
+                <span class="title-team" style="color: @teams.ElementAt(1).BackgroundColor;">@teams.ElementAt(1).Name<br /></span>
+                <span class="score-team">@game.ScoreRedTeam</span>
+            </div>
         </div>
     </div>
-    <div class="col-lg-4">
-        <button id="next-round" role="button" class="btn btn-lg btn-outline-success">Next round</button>
-    </div>
-    <div class="col-lg-4">
-        <div class="border-team" style="border-color: @teams.ElementAt(1).BackgroundColor">
-            <span class="title-team" style="color: @teams.ElementAt(1).BackgroundColor;">@teams.ElementAt(1).Name<br /></span>
-            <span class="score-team">@game.ScoreRedTeam</span>
-        </div>
-    </div>
-</div>
+*@
 
 @section Scripts {
     <script charset="utf-8" type="text/javascript" src="~/js/game-details.js"></script>

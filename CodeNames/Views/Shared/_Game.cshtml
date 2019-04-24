@@ -10,32 +10,61 @@
     @RenderSection("Styles", required: false)
 </head>
 <body>
-    <main role="main" class="pb-3">
-        <div class="row">
-            <div class="col-md-12">
-                @if (TempData["Error"] != null || TempData["Success"] != null || TempData["Warning"] != null)
-                {
-                    <div class="flash-message">
-
-                        @if (TempData["Error"] != null)
-                        {
-                            <p class="alert alert-danger">@Html.Raw(TempData["Error"])</p>
-                        }
-                        @if (TempData["Warning"] != null)
-                        {
-                            <p class="alert alert-warning">@Html.Raw(TempData["Warning"])</p>
-                        }
-                        @if (TempData["Success"] != null)
-                        {
-                            <p class="alert alert-success">@Html.Raw(TempData["Success"])</p>
-                        }
-                    </div>
-                }
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-blue border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">CodeNames</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <!--<partial name="_LoginPartial" />-->
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Games" asp-action="Index">Games</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Parameters</a>
+                            <div class="dropdown-menu" aria-labelledby="dropdown">
+                                <a class="dropdown-item" asp-area="" asp-controller="Teams" asp-action="Index">Teams</a>
+                                <a class="dropdown-item" asp-area="" asp-controller="Themes" asp-action="Index">Themes</a>
+                                <a class="dropdown-item" asp-area="" asp-controller="Words" asp-action="Index">Words</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
             </div>
-        </div>
+        </nav>
+    </header>
+    <div class="container-fluid">
+        <main role="main" class="pb-3">
+            <div class="row">
+                <div class="col-md-12">
+                    @if (TempData["Error"] != null || TempData["Success"] != null || TempData["Warning"] != null)
+                    {
+                        <div class="flash-message">
 
-        @RenderBody()
-    </main>
+                            @if (TempData["Error"] != null)
+                            {
+                                <p class="alert alert-danger">@Html.Raw(TempData["Error"])</p>
+                            }
+                            @if (TempData["Warning"] != null)
+                            {
+                                <p class="alert alert-warning">@Html.Raw(TempData["Warning"])</p>
+                            }
+                            @if (TempData["Success"] != null)
+                            {
+                                <p class="alert alert-success">@Html.Raw(TempData["Success"])</p>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+
+            @RenderBody()
+        </main>
+    </div>
 
     <script charset="utf-8" type="text/javascript" src="~/js/jquery-3.3.1.min.js"></script>
     <script charset="utf-8" type="text/javascript" src="~/js/bootstrap.bundle.min.js"></script>

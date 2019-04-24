@@ -128,6 +128,10 @@ namespace CodeNames.Data
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasColumnType("varchar(64)");
+
+                entity.Property(e => e.Value)
+                    .IsRequired()
+                    .HasColumnType("varchar(128)");
             });
 
             modelBuilder.Entity<Teams>(entity =>

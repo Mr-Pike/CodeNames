@@ -12,6 +12,7 @@ namespace CodeNames.Data.Migrations
                 {
                     Id = table.Column<short>(nullable: false),
                     Name = table.Column<string>(maxLength: 64, nullable: false),
+                    Value = table.Column<string>(maxLength: 128, nullable: false),
                 },
                 constraints: table =>
                 {

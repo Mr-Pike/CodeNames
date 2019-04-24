@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Views\Parameters\" />
     <Folder Include="wwwroot\grids\" />
   </ItemGroup>
 
