@@ -50,6 +50,7 @@ namespace CodeNames
 
             // Dependency injection.
             services.AddScoped<IGamesService, GamesService>();
+            services.AddScoped<IParametersService, ParametersService>();
             services.AddScoped<ITeamsService, TeamsService>();
             services.AddScoped<IThemesService, ThemesService>();
             services.AddScoped<IWordsService, WordsService>();

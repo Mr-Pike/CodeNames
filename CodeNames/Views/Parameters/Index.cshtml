@@ -1,0 +1,44 @@
+﻿@model IEnumerable<Parameters>
+@{
+    ViewData["Title"] = "Parameters";
+}
+
+<h2>Parameters</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Value</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @if (item.Id > 3 && item.Id < 8)
+                    {
+                        <div class="chip-color" style="background-color: @Html.DisplayFor(modelItem => item.Value);"></div>
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.Value)
+                    }
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

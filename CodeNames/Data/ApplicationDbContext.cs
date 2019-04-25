@@ -129,6 +129,10 @@ namespace CodeNames.Data
                     .IsRequired()
                     .HasColumnType("varchar(64)");
 
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasColumnType("varchar(128)");
+
                 entity.Property(e => e.Value)
                     .IsRequired()
                     .HasColumnType("varchar(128)");
@@ -205,7 +209,7 @@ namespace CodeNames.Data
 
                 entity.Property(e => e.Name)
                     .IsRequired()
-                    .HasColumnType("varchar(128)");
+                    .HasColumnType("varchar(32)");
             });
 
             modelBuilder.Entity<GamesView>(entity =>

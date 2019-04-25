@@ -12,7 +12,7 @@ namespace CodeNames.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                     .Annotation("MySql:ValueGeneratedOnAdd", true),
-                    Name = table.Column<string>(maxLength: 128, nullable: false),
+                    Name = table.Column<string>(maxLength: 32, nullable: false),
                 },
                 constraints: table =>
                 {

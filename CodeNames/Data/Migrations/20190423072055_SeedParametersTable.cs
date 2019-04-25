@@ -7,13 +7,14 @@ namespace CodeNames.Data.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.Sql(@"INSERT INTO Parameters (Id, Name, Value) VALUES
-                (1, 'Timer', '45'),
-                (2, 'BlackModeEnabled', 'true'),
-                (3, 'BlackModeBackgroundColor', '#1e1e1e'),
-                (4, 'BlackModeColor', '#d9d9d9'),
-                (5, 'WhiteModeBackgroundColor', '#ffffff'),
-                (6, 'WhiteModeColor', '#000000')",
+            migrationBuilder.Sql(@"INSERT INTO Parameters (Id, Name, Description, Value) VALUES
+                (1, 'TimerGiveWord', 'Timer to give the word.', '45'),
+                (2, 'TimerGuessWord', 'Timer to guess the word.',  '45'),
+                (3, 'BlackModeEnabled', 'Enable black mode.',  'true'),
+                (4, 'BlackModeBackgroundColor', 'Background color for the black mode.', '#1e1e1e'),
+                (5, 'BlackModeColor', 'Text color for the black mode.', '#d9d9d9'),
+                (6, 'WhiteModeBackgroundColor', 'Background color for the white mode.', '#ffffff'),
+                (7, 'WhiteModeColor', 'Text color for the white mode.', '#000000')",
                 false);
         }
 
