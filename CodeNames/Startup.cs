@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CodeNames.Data;
 using Microsoft.Extensions.Configuration;
@@ -39,7 +38,8 @@ namespace CodeNames
                 //.AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            services.AddMvc(option => option.EnableEndpointRouting = false).SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+            services.AddRazorPages();
+            services.AddControllersWithViews();
 
             services.AddHttpContextAccessor();
 
@@ -69,14 +69,12 @@ namespace CodeNames
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
+            app.UseRouting();
             app.UseAuthentication();
 
-            app.UseMvc(routes =>
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Games}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute("default", "{controller=Games}/{action=Index}/{id?}");
             });
         }
     }
