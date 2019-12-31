@@ -56,7 +56,7 @@ namespace CodeNames
         WebHost.CreateDefaultBuilder(args)
             .ConfigureAppConfiguration((context, config) =>
             {
-                IHostingEnvironment env = context.HostingEnvironment;
+                IWebHostEnvironment env = context.HostingEnvironment;
 
                 config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                       .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true);

@@ -16,9 +16,9 @@ namespace CodeNames.Services
     public class GamesService : IGamesService
     {
         private readonly ApplicationDbContext _context;
-        private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly IWebHostEnvironment _hostingEnvironment;
 
-        public GamesService(ApplicationDbContext context, IHostingEnvironment hostingEnvironment)
+        public GamesService(ApplicationDbContext context, IWebHostEnvironment hostingEnvironment)
         {
             _context = context;
             _hostingEnvironment = hostingEnvironment;

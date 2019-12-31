@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using CodeNames.Models;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace CodeNames.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public partial class ApplicationDbContext : DbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -15,20 +13,37 @@ namespace CodeNames.Data
 
         }
 
+        public virtual DbSet<Efmigrationshistory> Efmigrationshistory { get; set; }
         public virtual DbSet<Games> Games { get; set; }
+        public virtual DbSet<GamesView> GamesView { get; set; }
         public virtual DbSet<Gameswords> Gameswords { get; set; }
         public virtual DbSet<Parameters> Parameters { get; set; }
         public virtual DbSet<Teams> Teams { get; set; }
         public virtual DbSet<Themes> Themes { get; set; }
         public virtual DbSet<Themeswords> Themeswords { get; set; }
         public virtual DbSet<Words> Words { get; set; }
-
-        public virtual DbSet<GamesView> GamesView { get; set; }
         public virtual DbSet<WordsView> WordsView { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Efmigrationshistory>(entity =>
+            {
+                entity.HasKey(e => e.MigrationId)
+                    .HasName("PRIMARY");
+
+                entity.ToTable("__efmigrationshistory");
+
+                entity.Property(e => e.MigrationId)
+                    .HasColumnType("varchar(95)")
+                    .HasCharSet("utf8")
+                    .HasCollation("utf8_general_ci");
+
+                entity.Property(e => e.ProductVersion)
+                    .IsRequired()
+                    .HasColumnType("varchar(32)")
+                    .HasCharSet("utf8")
+                    .HasCollation("utf8_general_ci");
+            });
 
             modelBuilder.Entity<Games>(entity =>
             {
@@ -44,23 +59,17 @@ namespace CodeNames.Data
 
                 entity.Property(e => e.NextToPlayTeamId).HasColumnType("smallint(6)");
 
-                entity.Property(e => e.RoundBlueTeam)
-                    .HasColumnType("smallint(6)")
-                    .HasDefaultValueSql("'0'");
+                entity.Property(e => e.RoundBlueTeam).HasColumnType("smallint(6)");
 
-                entity.Property(e => e.RoundRedTeam)
-                    .HasColumnType("smallint(6)")
-                    .HasDefaultValueSql("'0'");
+                entity.Property(e => e.RoundRedTeam).HasColumnType("smallint(6)");
 
-                entity.Property(e => e.ScoreBlueTeam)
-                    .HasColumnType("smallint(6)")
-                    .HasDefaultValueSql("'0'");
+                entity.Property(e => e.ScoreBlueTeam).HasColumnType("smallint(6)");
 
-                entity.Property(e => e.ScoreRedTeam)
-                    .HasColumnType("smallint(6)")
-                    .HasDefaultValueSql("'0'");
+                entity.Property(e => e.ScoreRedTeam).HasColumnType("smallint(6)");
 
                 entity.Property(e => e.StartTeamId).HasColumnType("smallint(6)");
+
+                entity.Property(e => e.UpdatedAt).HasDefaultValueSql("'NULL'");
 
                 entity.HasOne(d => d.NextToPlayTeam)
                     .WithMany(p => p.GamesNextToPlayTeam)
@@ -71,6 +80,41 @@ namespace CodeNames.Data
                     .WithMany(p => p.GamesStartTeam)
                     .HasForeignKey(d => d.StartTeamId)
                     .HasConstraintName("FK_Games_Teams_StartTeamId");
+            });
+
+            modelBuilder.Entity<GamesView>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("_gamesview");
+
+                entity.Property(e => e.BackgroundColorName)
+                    .HasColumnType("varchar(7)")
+                    .HasDefaultValueSql("'NULL'")
+                    .HasCharSet("utf8mb4")
+                    .HasCollation("utf8mb4_general_ci");
+
+                entity.Property(e => e.ColorName)
+                    .IsRequired()
+                    .HasColumnType("varchar(7)")
+                    .HasCharSet("utf8mb4")
+                    .HasCollation("utf8mb4_general_ci");
+
+                entity.Property(e => e.GameId).HasColumnType("int(11)");
+
+                entity.Property(e => e.Order)
+                    .HasColumnName("order")
+                    .HasColumnType("smallint(6)");
+
+                entity.Property(e => e.TeamId).HasColumnType("smallint(6)");
+
+                entity.Property(e => e.WordId).HasColumnType("int(11)");
+
+                entity.Property(e => e.WordName)
+                    .IsRequired()
+                    .HasColumnType("varchar(32)")
+                    .HasCharSet("utf8mb4")
+                    .HasCollation("utf8mb4_general_ci");
             });
 
             modelBuilder.Entity<Gameswords>(entity =>
@@ -89,11 +133,6 @@ namespace CodeNames.Data
                 entity.Property(e => e.GameId).HasColumnType("int(11)");
 
                 entity.Property(e => e.WordId).HasColumnType("int(11)");
-
-                entity.Property(e => e.Find)
-                    .IsRequired()
-                    .HasColumnType("bit(1)")
-                    .HasDefaultValueSql("'b\\'0\\''");
 
                 entity.Property(e => e.Order).HasColumnType("smallint(6)");
 
@@ -125,17 +164,23 @@ namespace CodeNames.Data
 
                 entity.Property(e => e.Id).HasColumnType("smallint(6)");
 
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasColumnType("varchar(64)");
-
                 entity.Property(e => e.Description)
                     .IsRequired()
-                    .HasColumnType("varchar(128)");
+                    .HasColumnType("varchar(128)")
+                    .HasCharSet("utf8mb4")
+                    .HasCollation("utf8mb4_general_ci");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasColumnType("varchar(64)")
+                    .HasCharSet("utf8mb4")
+                    .HasCollation("utf8mb4_general_ci");
 
                 entity.Property(e => e.Value)
                     .IsRequired()
-                    .HasColumnType("varchar(128)");
+                    .HasColumnType("varchar(128)")
+                    .HasCharSet("utf8mb4")
+                    .HasCollation("utf8mb4_general_ci");
             });
 
             modelBuilder.Entity<Teams>(entity =>
@@ -148,13 +193,23 @@ namespace CodeNames.Data
 
                 entity.Property(e => e.Id).HasColumnType("smallint(6)");
 
-                entity.Property(e => e.Color).HasColumnType("varchar(7)");
+                entity.Property(e => e.BackgroundColor)
+                    .HasColumnType("varchar(7)")
+                    .HasDefaultValueSql("'NULL'")
+                    .HasCharSet("utf8mb4")
+                    .HasCollation("utf8mb4_general_ci");
 
-                entity.Property(e => e.BackgroundColor).HasColumnType("varchar(7)");
+                entity.Property(e => e.Color)
+                    .IsRequired()
+                    .HasColumnType("varchar(7)")
+                    .HasCharSet("utf8mb4")
+                    .HasCollation("utf8mb4_general_ci");
 
                 entity.Property(e => e.Name)
                     .IsRequired()
-                    .HasColumnType("varchar(64)");
+                    .HasColumnType("varchar(64)")
+                    .HasCharSet("utf8mb4")
+                    .HasCollation("utf8mb4_general_ci");
             });
 
             modelBuilder.Entity<Themes>(entity =>
@@ -169,7 +224,9 @@ namespace CodeNames.Data
 
                 entity.Property(e => e.Name)
                     .IsRequired()
-                    .HasColumnType("varchar(64)");
+                    .HasColumnType("varchar(64)")
+                    .HasCharSet("utf8mb4")
+                    .HasCollation("utf8mb4_general_ci");
             });
 
             modelBuilder.Entity<Themeswords>(entity =>
@@ -209,43 +266,37 @@ namespace CodeNames.Data
 
                 entity.Property(e => e.Name)
                     .IsRequired()
-                    .HasColumnType("varchar(32)");
-            });
-
-            modelBuilder.Entity<GamesView>(entity =>
-            {
-                entity.ToTable("_gamesview");
-
-                entity.HasKey(e => new { e.GameId, e.WordId })
-                    .HasName("PRIMARY");
-
-                entity.Property(e => e.GameId);
-
-                entity.Property(e => e.WordId);
-
-                entity.Property(e => e.Find);
-
-                entity.Property(e => e.Order);
-
-                entity.Property(e => e.TeamId);
-
-                entity.Property(e => e.WordName);
-
-                entity.Property(e => e.ColorName);
-
-                entity.Property(e => e.BackgroundColorName);
+                    .HasColumnType("varchar(32)")
+                    .HasCharSet("utf8mb4")
+                    .HasCollation("utf8mb4_general_ci");
             });
 
             modelBuilder.Entity<WordsView>(entity =>
             {
-                entity.ToTable("_wordsview");
+                entity.HasNoKey();
 
-                entity.Property(e => e.Id).HasColumnType("int(11)");
+                entity.ToView("_wordsview");
 
-                entity.Property(e => e.Name).HasColumnType("varchar(128)");
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .HasColumnType("int(11)");
 
-                entity.Property(e => e.ThemesName).HasColumnType("varchar(255)");
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasColumnType("varchar(32)")
+                    .HasCharSet("utf8mb4")
+                    .HasCollation("utf8mb4_general_ci");
+
+                entity.Property(e => e.ThemesName)
+                    .HasColumnType("mediumtext")
+                    .HasDefaultValueSql("'NULL'")
+                    .HasCharSet("utf8mb4")
+                    .HasCollation("utf8mb4_general_ci");
             });
+
+            OnModelCreatingPartial(modelBuilder);
         }
+
+        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }

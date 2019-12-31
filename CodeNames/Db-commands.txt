@@ -9,7 +9,7 @@ Remove-Migration
 Update-Database
 
 # Generate models.
-Scaffold-DbContext "Server=localhost;User Id=root;Password=;Database=codenames2" Pomelo.EntityFrameworkCore.MySql -force -Tables Games -OutputDir Models/CodeNames
+Scaffold-DbContext "Server=localhost;User Id=root;Password=;Database=codenames" Pomelo.EntityFrameworkCore.MySql -force -Tables Games -OutputDir Models/CodeNames
 
 
 # PowerShell.

@@ -3,3 +3,7 @@
 ################################################################################
 
 /.vs/CodeNames
+/CodeNames/bin/Debug/netcoreapp3.0
+/CodeNames/obj
+/CodeNames/bin/Release/netcoreapp3.0
+/CodeNames/Properties/PublishProfiles

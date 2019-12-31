@@ -9,7 +9,7 @@ namespace CodeNames.Models
         public int WordId { get; set; }
         public short TeamId { get; set; }
         public short Order { get; set; }
-        public bool? Find { get; set; }
+        public bool Find { get; set; }
 
         public virtual Games Game { get; set; }
         public virtual Teams Team { get; set; }
