@@ -7,3 +7,5 @@
 /CodeNames/obj
 /CodeNames/bin/Release/netcoreapp3.0
 /CodeNames/Properties/PublishProfiles
+/CodeNames/bin
+/CodeNames/.config
